@@ -1,0 +1,10 @@
+{
+  "name": "cleaning-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:3d": "esbuild src/sofa.js --bundle --minify --format=iife --global-name=CleaningSofa --legal-comments=none --outfile=dist/sofa.bundle.js"
+  },
+  "dependencies": {"three": "0.187.0"},
+  "devDependencies": {"esbuild": "0.28.2"}
+}

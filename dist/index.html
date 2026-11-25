@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f7ff">
+  <meta name="description" content="Cleaning — выездная химчистка диванов, кресел и матрасов. Посмотрите цены и попробуйте убрать пятна с дивана в 3D.">
+  <title>Cleaning — выездная химчистка мебели</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">К основному содержанию</a>
+  <header class="header">
+    <div class="shell header-row">
+      <a class="brand" href="#" aria-label="Cleaning. На главную"><span translate="no">Cleaning</span></a>
+      <nav aria-label="Разделы сайта">
+        <a href="#services">Услуги</a>
+        <a href="#demo">3D-чистка</a>
+        <a href="#process">Процесс</a>
+      </nav>
+      <a class="header-link" href="#request">Оставить заявку</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Чистый диван.<br>У вас дома<span>.</span></h1>
+        <p>Выездная химчистка мягкой мебели. Почистим диван, кресла и матрас на месте.</p>
+        <div class="hero-actions">
+          <a class="button" href="#request">Оставить заявку</a>
+          <a class="button button-secondary" href="#estimate">Рассчитать цену</a>
+        </div>
+        <a class="text-link hero-demo-link" href="#demo">Почистить диван в 3D <span aria-hidden="true">↓</span></a>
+      </div>
+      <picture class="hero-photo">
+        <img src="assets/sofa-1280.webp" srcset="assets/sofa-640.webp 640w, assets/sofa-1280.webp 1280w"
+             sizes="(max-width: 760px) 92vw, (max-width: 1300px) 54vw, 655px" width="1280" height="853"
+             alt="Голубой трёхместный диван со светлыми деревянными ножками в солнечной комнате" fetchpriority="high">
+      </picture>
+    </section>
+
+    <section class="section lab" id="demo" aria-labelledby="demo-title">
+      <div class="shell">
+        <div class="section-head">
+          <h2 id="demo-title">Попробуйте<br>почистить диван<span>.</span></h2>
+          <p>Проведите пальцем или мышью по пятнам, чтобы их стереть. Меняйте ракурс стрелками под диваном.</p>
+        </div>
+        <div class="simulator" id="sofa-demo">
+          <div class="sim-scene">
+            <img class="sim-fallback" src="assets/model-preview.webp" width="687" height="480" alt="Голубая 3D-модель дивана с пятнами на сиденьях" loading="lazy">
+            <canvas class="sim-canvas" role="img" aria-label="Интерактивная 3D-модель дивана" hidden></canvas>
+          </div>
+          <div class="sim-panel" hidden>
+            <div class="sim-controls">
+              <div class="view-actions" role="group" aria-label="Ракурс дивана">
+                <button type="button" class="sim-turn" data-turn="-1" aria-label="Повернуть диван влево">←</button>
+                <button type="button" class="sim-turn" data-turn="1" aria-label="Повернуть диван вправо">→</button>
+                <button type="button" class="sim-turn" data-tilt="1" aria-label="Посмотреть на диван сверху">↑</button>
+                <button type="button" class="sim-turn" data-tilt="-1" aria-label="Опустить ракурс дивана">↓</button>
+              </div>
+              <div class="view-actions">
+                <button type="button" data-clean-spot>Убрать пятно</button>
+                <button type="button" data-reset aria-label="Сбросить чистку и ракурс дивана">Сбросить</button>
+              </div>
+            </div>
+            <div class="sim-meter">
+              <label for="clean-progress">Чистота <output id="clean-value">0%</output></label>
+              <progress id="clean-progress" max="100" value="0"></progress>
+              <span class="sr-only" id="sofa-status" role="status"></span>
+            </div>
+          </div>
+          <p class="sim-note">Статичный вид 3D-дивана.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services shell" id="services" aria-labelledby="services-title">
+      <div class="section-head">
+        <h2 id="services-title">Что почистим<span>.</span></h2>
+        <p>Подбираем способ чистки под обивку. Ниже — ориентиры по стоимости.</p>
+      </div>
+      <div class="service-grid">
+        <article><h3>Диваны</h3><p>Прямые и угловые, со съёмными подушками и без них.</p><strong>от 2 900 ₽</strong></article>
+        <article><h3>Кресла</h3><p>Кресла для отдыха, офисные кресла и мягкие стулья.</p><strong>от 1 100 ₽</strong></article>
+        <article><h3>Матрасы</h3><p>Односпальные и двуспальные. Можно выбрать одну или обе стороны.</p><strong>от 2 400 ₽</strong></article>
+      </div>
+    </section>
+
+    <section class="section process" id="process" aria-labelledby="process-title">
+      <div class="shell process-grid">
+        <img src="assets/cleaning.webp" width="1080" height="720" alt="Мастер чистит сиденье дивана прозрачной насадкой для обивки" loading="lazy">
+        <div>
+          <h2 id="process-title">Как проходит чистка<span>.</span></h2>
+          <ol>
+            <li><strong>Осматриваем ткань.</strong> Уточняем, что пролилось и чем уже пробовали убрать пятно.</li>
+            <li><strong>Чистим обивку.</strong> Обрабатываем загрязнённые места и вытягиваем влагу насадкой.</li>
+            <li><strong>Проверяем результат.</strong> Показываем обработанные участки и подсказываем, как высушить мебель.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section examples shell" aria-labelledby="examples-title">
+      <div class="section-head">
+        <h2 id="examples-title">До и после<span>.</span></h2>
+        <p>На крупном плане видно пятно и фактуру ткани после чистки.</p>
+      </div>
+      <figure class="comparison">
+        <div class="comparison-labels"><span>До чистки</span><span>После чистки</span></div>
+        <img src="assets/comparison.webp" width="1200" height="800" alt="Голубая подушка с пятном слева и чистая ткань справа" loading="lazy">
+        <figcaption>Иллюстрация результата на тканевой обивке</figcaption>
+      </figure>
+    </section>
+
+    <section class="section estimate" id="estimate" aria-labelledby="estimate-title">
+      <div class="shell estimate-grid">
+        <div>
+          <h2 id="estimate-title">Сколько будет стоить<span>?</span></h2>
+          <p>Выберите мебель и количество предметов. Итоговая цена зависит от ткани, размера и состояния обивки.</p>
+        </div>
+        <form class="calculator" id="calculator">
+          <label>Предмет
+            <select name="item">
+              <option value="2900" data-service="sofa">Прямой диван</option>
+              <option value="4200" data-service="corner-sofa">Угловой диван</option>
+              <option value="1100" data-service="armchair">Кресло</option>
+              <option value="2400" data-service="mattress">Матрас</option>
+            </select>
+          </label>
+          <label>Количество
+            <select name="quantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <div class="calculator-total">
+            <span>Ориентировочно</span>
+            <output id="estimate-total" aria-live="polite" aria-atomic="true">2 900 ₽</output>
+          </div>
+          <a class="text-link estimate-book" href="#request" data-use-estimate>Оставить заявку на эту услугу <span aria-hidden="true">↓</span></a>
+        </form>
+      </div>
+    </section>
+
+    <section class="section booking" id="request" aria-labelledby="request-title">
+      <div class="shell booking-grid">
+        <div class="booking-copy">
+          <h2 id="request-title">Оставьте заявку<span>.</span></h2>
+          <p>Выберите мебель и уточните детали чистки.</p>
+        </div>
+        <form class="request-form" id="request-form" method="dialog" autocomplete="off">
+          <div class="request-fields">
+            <label for="request-name">Имя
+              <input id="request-name" maxlength="80" required>
+            </label>
+            <label for="request-phone">Телефон
+              <input id="request-phone" type="tel" maxlength="30" required>
+            </label>
+          </div>
+          <label for="request-service">Что почистить
+            <select id="request-service" required>
+              <option value="sofa">Прямой диван</option>
+              <option value="corner-sofa">Угловой диван</option>
+              <option value="armchair">Кресло</option>
+              <option value="mattress">Матрас</option>
+              <option value="other">Другая мебель</option>
+            </select>
+          </label>
+          <label for="request-note"><span>Комментарий <small class="optional">по желанию</small></span>
+            <textarea id="request-note" rows="3" maxlength="500" placeholder="Например, два кресла или пятно на подлокотнике…"></textarea>
+          </label>
+          <button class="button" type="submit">Отправить</button>
+          <p class="request-status" id="request-status" role="status" aria-atomic="true"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section faq shell" aria-labelledby="faq-title">
+      <h2 id="faq-title">Частые вопросы<span>.</span></h2>
+      <div class="faq-list">
+        <details><summary>Нужно вывозить диван?</summary><p>Чистка проходит дома. Для оборудования нужны розетка и доступ к воде.</p></details>
+        <details><summary>Можно сесть на диван сразу после чистки?</summary><p>Подождите, пока обивка полностью высохнет. Время зависит от ткани, температуры и проветривания комнаты.</p></details>
+        <details><summary>Любое пятно можно убрать?</summary><p>Результат зависит от состава пятна, ткани и прежней обработки. Старые пятна и изменения цвета мастер оценивает до чистки.</p></details>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="shell footer-row">
+      <a class="brand" href="#" aria-label="Cleaning. В начало"><span translate="no">Cleaning</span></a>
+      <span>Выездная химчистка мебели</span>
+      <a class="text-link" href="#request">Оставить заявку</a>
+    </div>
+  </footer>
+</body>
+</html>

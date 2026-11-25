@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f1f7ff">
   <meta name="description" content="Cleaning — выездная химчистка диванов, кресел и матрасов. Посмотрите цены и попробуйте убрать пятна с дивана в 3D.">
+  <link rel="canonical" href="https://cleaning-landing-tau.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Cleaning — выездная химчистка мебели">
+  <meta property="og:description" content="Посмотрите цены на чистку диванов, кресел и матрасов и попробуйте убрать пятна с дивана в 3D.">
+  <meta property="og:url" content="https://cleaning-landing-tau.vercel.app/">
+  <meta property="og:image" content="https://cleaning-landing-tau.vercel.app/assets/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Голубой диван в светлой комнате">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Cleaning — выездная химчистка мебели</title>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
@@ -29,7 +40,7 @@
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-copy">
         <h1 id="hero-title">Чистый диван.<br>У вас дома<span>.</span></h1>
-        <p>Выездная химчистка мягкой мебели. Почистим диван, кресла и матрас на месте.</p>
+        <p>Выездная химчистка диванов, кресел и матрасов у вас дома.</p>
         <div class="hero-actions">
           <a class="button" href="#request">Оставить заявку</a>
           <a class="button button-secondary" href="#estimate">Рассчитать цену</a>
@@ -92,7 +103,9 @@
 
     <section class="section process" id="process" aria-labelledby="process-title">
       <div class="shell process-grid">
-        <img src="assets/cleaning.webp" width="1080" height="720" alt="Мастер чистит сиденье дивана прозрачной насадкой для обивки" loading="lazy">
+        <img src="assets/cleaning.webp" srcset="assets/cleaning-640.webp 640w, assets/cleaning.webp 1080w"
+             sizes="(max-width: 760px) 89vw, (max-width: 1440px) 46vw, 660px" width="1080" height="720"
+             alt="Мастер чистит сиденье дивана прозрачной насадкой для обивки" loading="lazy">
         <div>
           <h2 id="process-title">Как проходит чистка<span>.</span></h2>
           <ol>
@@ -111,7 +124,9 @@
       </div>
       <figure class="comparison">
         <div class="comparison-labels"><span>До чистки</span><span>После чистки</span></div>
-        <img src="assets/comparison.webp" width="1200" height="800" alt="Голубая подушка с пятном слева и чистая ткань справа" loading="lazy">
+        <img src="assets/comparison.webp" srcset="assets/comparison-640.webp 640w, assets/comparison.webp 1200w"
+             sizes="(max-width: 1440px) 89vw, 1280px" width="1200" height="800"
+             alt="Голубая подушка с пятном слева и чистая ткань справа" loading="lazy">
         <figcaption>Иллюстрация результата на тканевой обивке</figcaption>
       </figure>
     </section>
@@ -160,9 +175,12 @@
             <label for="request-name">Имя
               <input id="request-name" maxlength="80" required>
             </label>
-            <label for="request-phone">Телефон
-              <input id="request-phone" type="tel" maxlength="30" required>
-            </label>
+            <div class="request-phone">
+              <label for="request-phone">Телефон
+                <input id="request-phone" type="tel" maxlength="30" required aria-describedby="request-phone-error">
+              </label>
+              <p class="field-error" id="request-phone-error" aria-live="polite" hidden></p>
+            </div>
           </div>
           <label for="request-service">Что почистить
             <select id="request-service" required>

@@ -206,6 +206,16 @@ export function mount(root) {
   const ray = new Raycaster();
   const pointer = new Vector2();
   const { group, stains } = buildSofa();
+  const touchTargets = stains.map(() => {
+    const target = document.createElement("span");
+    target.className = "sim-stain-target";
+    target.setAttribute("aria-hidden", "true");
+    target.hidden = true;
+    holder.append(target);
+    return target;
+  });
+  const projected = new Vector3();
+  const stainCorners = [[-.32, -.28], [.32, -.28], [.32, .28], [-.32, .28]];
   const spotByMesh = new Map(stains.map(item => [item.mesh, item]));
   const changedStains = new Set();
   scene.add(group, contactShadow(), new AmbientLight("#dae9ff", 1.7));
@@ -225,6 +235,7 @@ export function mount(root) {
   let width = 0;
   let height = 0;
   let lost = false;
+  let refreshTargets = true;
 
   function updateProgress() {
     for (const item of changedStains) {
@@ -232,6 +243,7 @@ export function mount(root) {
       if (item.remaining < item.initial * .02) {
         item.remaining = 0;
         item.mesh.visible = false;
+        refreshTargets = true;
       }
     }
     changedStains.clear();
@@ -244,11 +256,38 @@ export function mount(root) {
     cleanButton.disabled = percent === 100;
   }
 
+  function findSurface() {
+    ray.setFromCamera(pointer, camera);
+    return ray.intersectObjects(group.children, false).find(hit => hit.object.visible);
+  }
+
+  function positionTouchTargets() {
+    stains.forEach(({ mesh }, index) => {
+      const target = touchTargets[index];
+      projected.set(0, 0, 0).applyMatrix4(mesh.matrixWorld).project(camera);
+      pointer.set(projected.x, projected.y);
+      target.hidden = !mesh.visible || findSurface()?.object !== mesh;
+      if (target.hidden) return;
+      target.style.left = `${(pointer.x + 1) * width * .5}px`;
+      target.style.top = `${(1 - pointer.y) * height * .5}px`;
+      let xExtent = 0;
+      let yExtent = 0;
+      for (const [x, y] of stainCorners) {
+        projected.set(x, y, 0).applyMatrix4(mesh.matrixWorld).project(camera);
+        xExtent = Math.max(xExtent, Math.abs(projected.x - pointer.x) * width);
+        yExtent = Math.max(yExtent, Math.abs(projected.y - pointer.y) * height);
+      }
+      target.style.width = `${Math.max(28, xExtent)}px`;
+      target.style.height = `${Math.max(24, yExtent)}px`;
+    });
+  }
+
   function draw(now) {
     frame = 0;
     if (lost || !width || !height) return;
     if (changedStains.size) updateProgress();
     if (tween) {
+      refreshTargets = true;
       const ratio = Math.min((now - tween.start) / 255, 1);
       const ease = 1 - (1 - ratio) ** 3;
       yaw = MathUtils.lerp(tween.fromYaw, tween.yaw, ease);
@@ -260,6 +299,10 @@ export function mount(root) {
     camera.position.set(0, .71 + Math.sin(pitch) * distance, Math.cos(pitch) * distance);
     camera.lookAt(0, .71, 0);
     renderer.render(scene, camera);
+    if (refreshTargets) {
+      positionTouchTargets();
+      refreshTargets = false;
+    }
     if (tween) requestDraw();
   }
 
@@ -275,10 +318,12 @@ export function mount(root) {
     camera.updateProjectionMatrix();
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.8));
     renderer.setSize(width, height, false);
+    refreshTargets = true;
     requestDraw();
   }
 
   function moveView(targetYaw, targetPitch) {
+    refreshTargets = true;
     if (reduced.matches) {
       tween = undefined;
       yaw = targetYaw;
@@ -290,11 +335,10 @@ export function mount(root) {
   }
 
   function cleanAt(event) {
-    const bounds = canvas.getBoundingClientRect();
+    const { bounds } = gesture;
     pointer.set(((event.clientX - bounds.left) / bounds.width) * 2 - 1,
       1 - ((event.clientY - bounds.top) / bounds.height) * 2);
-    ray.setFromCamera(pointer, camera);
-    const hit = ray.intersectObjects(group.children, false).find(item => item.object.visible);
+    const hit = findSurface();
     const item = hit && spotByMesh.get(hit.object);
     if (!item) {
       gesture.last = undefined;
@@ -333,17 +377,19 @@ export function mount(root) {
     requestDraw();
   });
 
-  canvas.addEventListener("pointerdown", event => {
-    if (gesture || event.button !== 0) return;
-    gesture = { id:event.pointerId };
-    canvas.setPointerCapture(event.pointerId);
+  holder.addEventListener("pointerdown", event => {
+    if (lost || gesture || event.button !== 0) return;
+    // A touch that starts off the fabric spots belongs to the browser's page scroll.
+    if (event.pointerType === "touch" && !event.target.classList.contains("sim-stain-target")) return;
+    gesture = { id:event.pointerId, bounds:canvas.getBoundingClientRect() };
+    holder.setPointerCapture(event.pointerId);
     cleanAt(event);
   });
-  canvas.addEventListener("pointermove", event => {
+  holder.addEventListener("pointermove", event => {
     if (gesture?.id === event.pointerId) cleanAt(event);
   });
   for (const name of ["pointerup", "pointercancel", "lostpointercapture"]) {
-    canvas.addEventListener(name, event => {
+    holder.addEventListener(name, event => {
       if (gesture?.id !== event.pointerId) return;
       gesture = undefined;
     });
@@ -355,6 +401,8 @@ export function mount(root) {
   canvas.addEventListener("webglcontextlost", event => {
     event.preventDefault();
     lost = true;
+    gesture = undefined;
+    for (const target of touchTargets) target.hidden = true;
     showViewer(false);
   });
   canvas.addEventListener("webglcontextrestored", () => {

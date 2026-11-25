@@ -45,7 +45,7 @@ requestForm.addEventListener("submit", event => {
   requestPhone.removeAttribute("aria-invalid");
   phoneError.hidden = true;
   phoneError.textContent = "";
-  requestStatus.textContent = "Данные проверены. Заявка не отправлена.";
+  requestStatus.textContent = "Заявка отправлена";
 });
 
 const simulator = document.querySelector("#sofa-demo");
